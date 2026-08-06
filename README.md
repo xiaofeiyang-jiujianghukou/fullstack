@@ -22,6 +22,7 @@
 
 ## 从哪里开始
 
+- 能力对照标尺：[docs/competency-model.md](docs/competency-model.md)
 - 宏观选型对比：[docs/tech-radar.md](docs/tech-radar.md)
 - 当前路线：[tracks/java-ts/](tracks/java-ts/)
 - 新开一条路线：[docs/track-template.md](docs/track-template.md)

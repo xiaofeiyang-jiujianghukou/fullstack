@@ -14,7 +14,7 @@
 ## 目录约定
 
 - `tracks/<路线>/` — 一条全栈技术路线，标准结构见 `docs/track-template.md`（README / roadmap / stack / evaluation / notes / projects）
-- `docs/` — 全局规则、跨路线对比（tech-radar.md）、新路线模板（track-template.md）
+- `docs/` — 全局规则、能力模型（competency-model.md）、跨路线对比（tech-radar.md）、新路线模板（track-template.md）
 - `notes/` — 跨路线通用笔记（HTTP、SQL、浏览器、部署等语言无关知识），文件名 kebab-case
 - `shared/` — 可复用模板、代码片段、配置
 
