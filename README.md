@@ -24,6 +24,7 @@
 
 - 能力对照标尺：[docs/competency-model.md](docs/competency-model.md)
 - 前端技术全景：[docs/frontend-landscape.md](docs/frontend-landscape.md)
+- 知识笔记：[notes/js-event-loop.md](notes/js-event-loop.md)（事件循环与异步模型）
 - 宏观选型对比：[docs/tech-radar.md](docs/tech-radar.md)
 - 当前路线：[tracks/java-ts/](tracks/java-ts/)
 - 新开一条路线：[docs/track-template.md](docs/track-template.md)

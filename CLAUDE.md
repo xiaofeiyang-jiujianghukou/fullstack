@@ -15,12 +15,14 @@
 
 - `tracks/<路线>/` — 一条全栈技术路线，标准结构见 `docs/track-template.md`（README / roadmap / stack / evaluation / notes / projects）
 - `docs/` — 全局规则、能力模型（competency-model.md）、前端技术全景（frontend-landscape.md）、跨路线对比（tech-radar.md）、新路线模板（track-template.md）
-- `notes/` — 跨路线通用笔记（HTTP、SQL、浏览器、部署等语言无关知识），文件名 kebab-case
+- `notes/` — 跨路线通用知识笔记（HTTP、SQL、浏览器、部署，以及前端 JS/TS——所有路线共用同一套前端），文件名 kebab-case
 - `shared/` — 可复用模板、代码片段、配置
 
 ## 协作规则
 
 - **先讲清楚，再动手**：引入任何新技术、新工具、新概念前，先按「是什么 / 怎么用 / 优势 / 劣势 / 适用场景 / 与谁搭配」讲明白，再写代码。用户要的是宏观选型判断力，不是照抄代码
+- **练习一律交互式**：先让用户预测/作答，再运行验证、逐位对比、讲解原理。**讲解中绝不提前剧透答案**；答案由程序真实运行收集，不硬编码。参考 `tracks/java-ts/projects/playground-ts/src/01-quiz.ts`
+- **讲过的概念必须沉淀**：对话里讲解的知识点要写进文档，便于日后翻阅，不能只存在于对话中。写完在 README 导航登记
 - 全程中文交流，代码标识符与技术术语保留英文
 - 知识归档：语言无关的通用知识 → 根 `notes/`；路线专属 → `tracks/<路线>/notes/`
 - 对某个栈的优缺点、性能、内存结论 → 该路线 `evaluation.md`，成熟后同步 `docs/tech-radar.md`
