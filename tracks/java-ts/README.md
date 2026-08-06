@@ -4,7 +4,9 @@
 
 ## 状态
 
-- 启动于 2026-08-05，当前进度：阶段 1（JS/TS 语言基础）未开始
+- 启动于 2026-08-05，当前进度：**阶段 1（JS/TS 语言基础）进行中**
+- 练习场已就绪：`projects/playground-ts/`（Node 原生跑 TS，无构建）
+- 待填笔记：`notes/js-async-model.md`、`notes/ts-for-java-dev.md`
 
 ## 文件导航
 

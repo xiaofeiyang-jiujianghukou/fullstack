@@ -1,0 +1,17 @@
+{
+  "name": "playground-ts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "阶段 1 练习场：JS/TS 语言基础，Node 原生运行 TS，无构建步骤",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "01": "node src/01-event-loop.ts",
+    "02": "node src/02-this-binding.ts",
+    "03": "node src/03-structural-typing.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
+  }
+}
