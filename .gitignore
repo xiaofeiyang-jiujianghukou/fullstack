@@ -1,0 +1,21 @@
+# 依赖与构建产物
+node_modules/
+dist/
+build/
+target/
+*.class
+
+# 环境与密钥
+.env
+.env.local
+.env.*.local
+
+# IDE 与系统文件
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# 日志
+*.log
+logs/
