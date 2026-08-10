@@ -15,10 +15,16 @@ pnpm check       # 全量类型检查（tsc --noEmit）
 | 文件 | 主题 | 对照的 Java 直觉 |
 |---|---|---|
 | `src/01-event-loop.ts` | 事件循环与单线程异步 | 多线程抢占 → 单线程任务队列 |
-| `src/02-this-binding.ts` | `this` 的动态绑定 | 编译期绑定实例 → 由调用点决定 |
+| `src/02-this-binding.ts` | `this` 动态绑定（交互） | 编译期绑定实例 → 由调用点决定 |
 | `src/03-structural-typing.ts` | 结构化类型系统 | 名义类型（看名字）→ 结构类型（看形状） |
+| `src/01-quiz.ts` | 事件循环预测题（交互） | 预测输出顺序 → 真跑对比 |
+| `src/01-quiz-2.ts` | async/await + nextTick（交互） | 同步 try/catch → 切一刀排队 |
+| `src/04-promise-chain.ts` | Promise 链双轨道（交互） | 同步 throw → 失败轨道传播 |
+| `src/06-cjs-esm/` | CJS vs ESM 顶层行为对比（交互） | 模块求值上下文不同，实测四象限 |
+| `src/05-exam.ts` | 综合模考（交互，`pnpm exam`） | 事件循环 + async/await + Promise 链 |
 
-**练习 1 请先预测再运行**，猜错的地方才是真正的收获。
+**交互练习请先预测再运行**，猜错的地方才是真正的收获。
+题 3 前置：先做 `src/06-cjs-esm/`（`pnpm 06`），再考 `pnpm exam`。
 
 ## 配置说明
 

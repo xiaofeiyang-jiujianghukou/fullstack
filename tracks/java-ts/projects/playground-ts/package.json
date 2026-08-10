@@ -10,7 +10,11 @@
     "quiz2": "node src/01-quiz-2.ts",
     "01": "node src/01-event-loop.ts",
     "02": "node src/02-this-binding.ts",
-    "03": "node src/03-structural-typing.ts"
+    "03": "node src/03-structural-typing.ts",
+    "04": "node src/04-promise-chain.ts",
+    "exam": "node src/05-exam.ts",
+    "05": "node src/05-exam.ts",
+    "06": "node src/06-cjs-esm/06.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
