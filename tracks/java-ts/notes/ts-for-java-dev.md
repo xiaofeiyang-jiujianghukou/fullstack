@@ -117,9 +117,9 @@ Java 里为什么不存在这个问题：
 | 主题 | Java | TS | 备注 |
 |---|---|---|---|
 | 泛型擦除 | 是 | 是 | 运行时（JS）无泛型，纯编译期；Node 靠擦除直接跑 `.ts` |
-| `null` / `undefined` | | | |
+| `null` / `undefined` | 默认可空（引用类型）| 默认非空；可空写 `\| null`；null ≠ undefined | strictNullChecks，心态反转 |
 | 接口的作用 | | | |
-| 枚举 | | | |
+| 枚举 | 一等公民（字节码里 `values` / `valueOf`）| 被 `erasableSyntaxOnly` 禁 | enum 既是类型又是值，需生成运行时代码；用 union 字面量代替 |
 
 ### int ↔ String：语言层一样严，差异在「谁在转」
 
@@ -133,12 +133,56 @@ Java 里为什么不存在这个问题：
 
 TS / 前端世界没有这条「隐式转换传送带」：数据从 API 边界进来就是 `any` / `unknown`，类型全靠自己在边界校验（`zod` / `valibot` 等运行时校验库）。语言层两边一样严，差异在「转换发生在哪、谁负责」。
 
+### null / undefined：心态反转（strictNullChecks）
+
+| | Java | TS |
+|---|---|---|
+| 引用类型默认 | 可 null | **不可** null |
+| 要非空 | @NonNull / Optional | 默认就是 |
+| 要可空 | 默认 | `\| null` / `\| undefined` |
+| 空值种类 | 只有 null | null + undefined（两个）|
+
+核心：**Java 是 opt-in 非空，TS 是 opt-in 可空**（180 度反转）。
+
+```ts
+let s: string = 'hi'
+s = null              // ✗ strict 下报错
+let n: string | null = null
+n.length              // ✗ 可能 null
+n?.length             // ✓ optional chaining（null 短路成 undefined）
+n ?? 'default'        // ✓ nullish coalescing（null/undefined 取右边）
+```
+
+两个处理可空的工具（Java 无对应物，类似 Optional 但更轻）：
+- `?.` 安全访问，左边 null/undefined 就短路
+- `??` 空值兜底，左边 null/undefined 就取右边
+
+**null ≠ undefined**：参数写了 `| null` 就只接受 null，不接受 undefined；有默认值的参数，传 `undefined` 触发默认值，传 `null` 反而类型不匹配。
+
+> 配套练习：`src/08-null-undefined/`（`pnpm 08`），靠 `tsc` 真实判定。
+
 ---
 
 ## 5. 类型只存在于编译期
 
-Node 靠"类型擦除"直接运行 `.ts`，这说明了什么？
-`erasableSyntaxOnly` 禁掉了哪些语法，为什么这些语法不可擦除：
+TS 的类型只在编译期，运行时（JS）是擦除类型后的纯代码——没有任何类型信息。对照 Java：Java 的类型信息编译进字节码，运行时能反射拿到 `Class<?>`；TS/JS 运行时类型全丢。
+
+Node 24 跑 `.ts` 的方式：**只擦除类型、不做语法转换**。剥掉所有类型注解，剩下的 JS 直接执行。这要求 `.ts` 只写「擦掉就消失」的语法。
+
+`erasableSyntaxOnly` 强制这条，禁掉一切「需要编译生成运行时代码」的语法：
+
+| 语法 | 可擦除？ | 原因 |
+|---|---|---|
+| `interface` / `type` / 类型注解 | ✓ | 纯类型，擦掉消失 |
+| `enum E { A, B }` | ✗ | 要生成运行时对象 |
+| `const enum` | ✗ | 内联也需编译期生成 |
+| 参数属性 `constructor(public x)` | ✗ | 要生成 `this.x = x` |
+| `namespace` | ✗ | 要生成立即执行函数 |
+| `declare enum` | ✓ | 只声明，不生成代码 |
+
+`enum` 是最有争议的特性——既是类型又是值，编译后变成真实运行时对象（编译器生成的）。对照 Java：Java 的 enum 是一等公民（字节码里有 `values()` / `valueOf()`、能实现接口）；TS 的 enum 想模仿但和「类型擦除」哲学冲突，新项目倾向用 **union 字面量类型** 代替：`type Color = 'red' | 'green' | 'blue'`。
+
+> 配套练习：`src/09-erasable/`（`pnpm 09`），靠 `tsc` 真实判定。
 
 ---
 

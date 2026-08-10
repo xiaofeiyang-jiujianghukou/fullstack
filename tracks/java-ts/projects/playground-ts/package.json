@@ -15,7 +15,9 @@
     "exam": "node src/05-exam.ts",
     "05": "node src/05-exam.ts",
     "06": "node src/06-cjs-esm/06.ts",
-    "07": "node src/07-generics/07.ts"
+    "07": "node src/07-generics/07.ts",
+    "08": "node src/08-null-undefined/08.ts",
+    "09": "node src/09-erasable/09.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
