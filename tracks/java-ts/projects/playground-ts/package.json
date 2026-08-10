@@ -14,7 +14,8 @@
     "04": "node src/04-promise-chain.ts",
     "exam": "node src/05-exam.ts",
     "05": "node src/05-exam.ts",
-    "06": "node src/06-cjs-esm/06.ts"
+    "06": "node src/06-cjs-esm/06.ts",
+    "07": "node src/07-generics/07.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",

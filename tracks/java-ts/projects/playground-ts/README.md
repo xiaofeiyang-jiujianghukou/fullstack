@@ -21,6 +21,7 @@ pnpm check       # 全量类型检查（tsc --noEmit）
 | `src/01-quiz-2.ts` | async/await + nextTick（交互） | 同步 try/catch → 切一刀排队 |
 | `src/04-promise-chain.ts` | Promise 链双轨道（交互） | 同步 throw → 失败轨道传播 |
 | `src/06-cjs-esm/` | CJS vs ESM 顶层行为对比（交互） | 模块求值上下文不同，实测四象限 |
+| `src/07-generics/` | 泛型 vs Java（交互，tsc 判定） | 名义约束 → 结构约束，推断更强 |
 | `src/05-exam.ts` | 综合模考（交互，`pnpm exam`） | 事件循环 + async/await + Promise 链 |
 
 **交互练习请先预测再运行**，猜错的地方才是真正的收获。
