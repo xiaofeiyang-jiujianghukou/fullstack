@@ -24,6 +24,7 @@ pnpm check       # 全量类型检查（tsc --noEmit）
 | `src/07-generics/` | 泛型 vs Java（交互，tsc 判定） | 名义约束 → 结构约束，推断更强 |
 | `src/08-null-undefined/` | null/undefined + strictNullChecks（交互，tsc 判定） | 默认可空 → 默认非空，null≠undefined |
 | `src/09-erasable/` | 类型只在编译期 + erasableSyntaxOnly（交互，tsc 判定） | enum/参数属性/namespace 为何被禁 |
+| `src/10-interface-type/` | interface vs type（交互，tsc 判定） | type 更强大，interface 可合并 |
 | `src/05-exam.ts` | 综合模考（交互，`pnpm exam`） | 事件循环 + async/await + Promise 链 |
 
 **交互练习请先预测再运行**，猜错的地方才是真正的收获。

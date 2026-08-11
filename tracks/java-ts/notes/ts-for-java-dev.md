@@ -3,6 +3,33 @@
 > 配套练习：`projects/playground-ts/src/02-this-binding.ts`、`src/03-structural-typing.ts`、`src/07-generics.ts`
 > 状态：随阶段 1 推进持续填写
 
+## 0. TS 类型速查（先认全这些术语）
+
+```
+TS 类型
+├── 原语（primitive）   string / number / boolean / null / undefined / symbol / bigint
+├── 字面量（literal）   'red' / 42 / true（一个具体值当类型）
+├── 联合（union）       A | B ——「要么 A 要么 B」
+├── 交叉（intersection） A & B ——「同时是 A 和 B」
+├── 对象类型            { x: number } / interface / class 实例
+├── 数组                number[]
+├── 元组（tuple）       [number, string]（定长、各位类型可不同）
+├── 函数                (x: number) => string
+└── 特殊                any / unknown / never / void
+```
+
+### 三个最容易混的术语
+
+- **原语**：JS 里不是对象的值类型（string/number/boolean/null/undefined/symbol/bigram）。注意 TS 的 `string` 是原语，Java 的 `String` 是对象——别混。
+- **联合 `A | B`**：值「要么 A 要么 B」。Java 没有联合类型；`type Status = 'active' | 'inactive'`（字面量联合）就是代替 enum 的写法。
+- **元组 `[number, string]`**：定长、各位类型可不同的数组（`number[]` 是任意长全 number）。Java 没有元组；React 的 `const [v, setV] = useState(0)` 返回值就是元组。
+
+### 一条关键界限：什么算「对象类型」
+
+`interface extends` 右边、结构匹配的对象，都只认**有确定属性形状的对象类型**（`{ x: number }` / `interface` / 对象形 `type`）。**原语、联合、元组都不是**——所以 `interface extends string` / `extends 联合` 都报错。
+
+---
+
 ## 1. 结构化类型 vs 名义类型
 
 - Java 判定类型相同的依据：
@@ -118,7 +145,7 @@ Java 里为什么不存在这个问题：
 |---|---|---|---|
 | 泛型擦除 | 是 | 是 | 运行时（JS）无泛型，纯编译期；Node 靠擦除直接跑 `.ts` |
 | `null` / `undefined` | 默认可空（引用类型）| 默认非空；可空写 `\| null`；null ≠ undefined | strictNullChecks，心态反转 |
-| 接口的作用 | | | |
+| 接口的作用 | 名义类型，多态 / 契约核心，需显式 `implements` | 结构类型形状描述，与 `type` 高度重叠 | interface 可合并、只能 extends 对象；type 更强大 |
 | 枚举 | 一等公民（字节码里 `values` / `valueOf`）| 被 `erasableSyntaxOnly` 禁 | enum 既是类型又是值，需生成运行时代码；用 union 字面量代替 |
 
 ### int ↔ String：语言层一样严，差异在「谁在转」
@@ -160,6 +187,27 @@ n ?? 'default'        // ✓ nullish coalescing（null/undefined 取右边）
 **null ≠ undefined**：参数写了 `| null` 就只接受 null，不接受 undefined；有默认值的参数，传 `undefined` 触发默认值，传 `null` 反而类型不匹配。
 
 > 配套练习：`src/08-null-undefined/`（`pnpm 08`），靠 `tsc` 真实判定。
+
+---
+
+### interface vs type
+
+| | `interface` | `type` |
+|---|---|---|
+| 对象形状 | ✓ | ✓ |
+| 联合 / 交叉 / 原语别名 / 元组 | ✗ | ✓ |
+| 同名声明 | 自动**合并** | 报错（Duplicate identifier）|
+| 扩展 | `extends` | `&`（交叉）|
+
+- `type` 更强大：能给任何类型起别名（`type ID = string`、`type T = A \| B`、`type Pair = [number, string]`）。
+- `interface` 独有**声明合并**：同名 interface 自动合并成员（库的扩展点）；`type` 同名重复直接报错。
+- 扩展互通：`interface extends 某个对象 type`、`type = Interface & {...}` 都行；但 `interface` 不能 `extends` 联合类型。
+
+**对照 Java**：Java 的 interface 是名义类型 + 多态/契约核心，需显式 `implements`；TS 的 interface 是结构类型的形状描述，和 `type` 高度重叠，没有 Java interface 的独特地位。
+
+**选型**：描述对象/类形状 → `interface`（可合并、可扩展）；联合 / 交叉 / 原语 / 元组 / 工具类型 → `type`。
+
+> 配套练习：`src/10-interface-type/`（`pnpm 10`），靠 `tsc` 真实判定。
 
 ---
 

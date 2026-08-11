@@ -17,7 +17,8 @@
     "06": "node src/06-cjs-esm/06.ts",
     "07": "node src/07-generics/07.ts",
     "08": "node src/08-null-undefined/08.ts",
-    "09": "node src/09-erasable/09.ts"
+    "09": "node src/09-erasable/09.ts",
+    "10": "node src/10-interface-type/10.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
