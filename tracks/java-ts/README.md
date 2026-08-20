@@ -4,9 +4,9 @@
 
 ## 状态
 
-- 启动于 2026-08-05，当前进度：**阶段 1（JS/TS 语言基础）进行中**
-- 练习场已就绪：`projects/playground-ts/`（Node 原生跑 TS，无构建）
-- 待填笔记：`notes/js-async-model.md`、`notes/ts-for-java-dev.md`
+- 启动于 2026-08-05，当前进度：**阶段 2（React）进行中**（阶段 1 JS/TS 语言基础已完成，练习 01–10 + 三篇笔记）
+- 练习场：`projects/playground-ts/`（阶段 1，Node 原生跑 TS）、`projects/react-playground/`（阶段 2，`pnpm quiz` 交互练习）
+- 笔记：`notes/js-async-model.md`、`notes/js-this-binding.md`、`notes/ts-for-java-dev.md`、`notes/react-core.md`（随阶段 2 持续填写）
 
 ## 文件导航
 

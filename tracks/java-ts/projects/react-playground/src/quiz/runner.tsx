@@ -295,9 +295,101 @@ const Q3: Question = {
 `,
 }
 
+// ─── 题 4：列表渲染 + key ────────────────────────────────
+
+interface Item {
+  id: number
+  name: string
+}
+/** 每个子组件带自己的 state（计数器）——key 错了它就会挂错数据 */
+function Row({ name }: { name: string }) {
+  const [hits, setHits] = useState(0)
+  return (
+    <li onClick={() => setHits(hits + 1)}>
+      {name}（点了 {hits} 次）
+    </li>
+  )
+}
+/** key=index 的列表 */
+function ListBad() {
+  const [items, setItems] = useState<Item[]>([
+    { id: 1, name: '甲' },
+    { id: 2, name: '乙' },
+    { id: 3, name: '丙' },
+  ])
+  return (
+    <ul>
+      {items.map((it, i) => (
+        <Row key={i} name={it.name} />
+      ))}
+      <button onClick={() => setItems([{ id: 0, name: '新' }, ...items])}>头部插入</button>
+    </ul>
+  )
+}
+/** key=id 的列表 */
+function ListGood() {
+  const [items, setItems] = useState<Item[]>([
+    { id: 1, name: '甲' },
+    { id: 2, name: '乙' },
+    { id: 3, name: '丙' },
+  ])
+  return (
+    <ul>
+      {items.map((it) => (
+        <Row key={it.id} name={it.name} />
+      ))}
+      <button onClick={() => setItems([{ id: 0, name: '新' }, ...items])}>头部插入</button>
+    </ul>
+  )
+}
+const readList = (ul: HTMLElement) => Array.from(ul.querySelectorAll('li')).map((li) => li.textContent!.replace('（点了 0 次）', ''))
+
+const Q4: Question = {
+  title: '题 4：列表渲染 + key（index vs id）',
+  hint: 'Row 是带自己计数器 state 的子组件。两个列表都会在头部插入「新」。预测插入后列表显示的 4 行。',
+  code: `function Row({ name }: { name: string }) {
+  const [hits, setHits] = useState(0)          // ★ 子组件自己的 state
+  return <li>{name}（点了 {hits} 次）</li>
+}
+
+// 列表 A：key = index（位置）
+{items.map((it, i) => <Row key={i} name={it.name} />)}
+//   items = [甲, 乙, 丙]，点「头部插入」后 = [新, 甲, 乙, 丙]
+
+// 列表 B：key = it.id（业务 id，id：甲=1 乙=2 丙=3 新=0）
+{items.map((it) => <Row key={it.id} name={it.name} />)}`,
+  checks: [
+    {
+      desc: '列表 A（key=index）头部插入「新」后，列表 4 行依次是？\n     格式：名字用逗号连，如「甲,乙,丙,新」',
+      run: () => {
+        const { container } = render(<ListBad />)
+        fireEvent.click(screen.getByText('头部插入'))
+        return readList(container.querySelector('ul')!).join(',')
+      },
+    },
+    {
+      desc: '列表 B（key=id）头部插入「新」后，列表 4 行依次是？\n     格式：名字用逗号连，如「甲,乙,丙,新」',
+      run: () => {
+        const { container } = render(<ListGood />)
+        fireEvent.click(screen.getByText('头部插入'))
+        return readList(container.querySelector('ul')!).join(',')
+      },
+    },
+  ],
+  explain: `
+  ★ key 决定 React 复用哪个组件实例（连同它的 state）：
+    · key=id：新项 key=0 是新组件 → 渲染「新」；key=1/2/3 依旧对应甲/乙/丙 → 正常
+    · key=index：插入后位置 0..3 = 新,甲,乙,丙。React 认为 key=0/1/2 的组件
+      "还在"（复用，连同各自的 state），位置 3 才是新增 → 表面显示也对！
+  ★ 那坑在哪？—— 子组件有 state 时：key=index 复用的旧组件带着【旧 state】。
+    假如你先点第 1 行计数器再插入，「点了几次」会挂到别的数据头上（下轮加码验证）。
+  结论：会变顺序的列表，key 用稳定业务 id；index 只适合纯展示、永不重排的列表。
+`,
+}
+
 // ─── 主流程 ──────────────────────────────────────────────
 
-const QUESTIONS: Question[] = [Q1, Q2, Q3]
+const QUESTIONS: Question[] = [Q1, Q2, Q3, Q4]
 
 const rl = createInterface({ input, output })
 console.log(`\n${line}\n  React 交互练习 · 真实渲染判定\n${line}`)
